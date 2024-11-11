@@ -4,17 +4,17 @@ info:
   title: Smart Contract Service
   description: This is an open API specification document for smart-contract-service related operations.
   contact:
-    name: Bilal bin Ishtiaque
-    email: bilal.bin.ishtiaque@redmath.net
+    name: Abdul Mueed Shahbaz
+    email: abdulmueedshahbaz@gmail.com
   license:
     name: OrderLab
-    url: https://orderlab.com
+    url: https://localhost:8040.com
 servers:
-  - url: 'https://app.orderlab.dev:13005'
+  - url: 'https://localhost:8040.com'
     description: Development and Testing Server
-  - url: 'https://t-vm-olab-app-l02.redmath.org'
+  - url: 'https://localhost:8040.com'
     description: Test automation server
-  - url: 'https://a-vm-olab-app-l01.redmath.org'
+  - url: 'https://localhost:8040.com'
     description: Acceptance server
 
 tags:

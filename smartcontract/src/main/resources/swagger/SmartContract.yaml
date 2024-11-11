@@ -7,7 +7,7 @@ info:
     name: Abdul Mueed Shahbaz
     email: abdulmueedshahbaz@gmail.com
   license:
-    name: OrderLab
+    name: SmartContracts
     url: https://localhost:8040.com
 servers:
   - url: 'https://localhost:8040.com'

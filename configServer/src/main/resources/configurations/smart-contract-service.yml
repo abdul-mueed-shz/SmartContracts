@@ -1,0 +1,27 @@
+server:
+  port: 8040
+
+logging:
+  level:
+    org.springframework: INFO
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092  # Replace with your Kafka broker address
+  datasource:
+    url: jdbc:h2:mem:smart-contract
+    driver-class-name: org.h2.Driver
+    username: sa                # Default H2 username
+    password:                   # Default H2 password is empty
+    platform: h2
+
+  h2:
+    console:
+      enabled: true             # Enables the H2 console at /h2-console
+      path: /h2-console
+
+spring.jpa:
+  database-platform: org.hibernate.dialect.H2Dialect  # H2 dialect for JPA
+  hibernate:
+    ddl-auto: update             # Automatically creates and updates tables based on entities
+  show-sql: true                 # Logs SQL statements for debugging (optional)

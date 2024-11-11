@@ -1,0 +1,38 @@
+server:
+  port: ${CONFIG_SERVER_PORT}
+
+logging:
+  level:
+    org.springframework: DEBUG
+
+spring:
+  security:
+    user:
+      name: ${CONFIG_SERVER_USERNAME}
+      password: ${CONFIG_SERVER_PASSWORD}
+  application:
+    name: ${CONFIG_SERVER_NAME}
+  profiles:
+    active: native
+  kafka:
+    bootstrap-servers: localhost:9092
+  cloud:
+    bus:
+      enabled: true
+    config:
+      server:
+        prefix: ${CONFIG_SERVER_URL_PREFIX}
+        native:
+          search-locations:
+            - classpath:/configurations
+            - classpath:/configurations/{application}
+            - classpath:/configurations/{application}-{profile}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "bus-refresh,refresh,health"  # Expose bus-refresh, refresh, and health endpoints
+  endpoint:
+    health:
+      show-details: always  # Optional: Shows detailed health info if needed

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: smart-contract-service
+  config:
+    import: optional:configserver:${CONFIG_SERVER_BASE_URL}${CONFIG_SERVER_URL_PREFIX}  # Ensures Config Server is optional
+
+  cloud:
+    config:
+      username: ${CONFIG_SERVER_USERNAME}                            # Username for Config Server authentication
+      password: ${CONFIG_SERVER_PASSWORD}                # Password for Config Server authentication

@@ -1,0 +1,285 @@
+openapi: "3.0.3"
+info:
+  version: v1
+  title: Smart Contract Service
+  description: This is an open API specification document for smart-contract-service related operations.
+  contact:
+    name: Bilal bin Ishtiaque
+    email: bilal.bin.ishtiaque@redmath.net
+  license:
+    name: OrderLab
+    url: https://orderlab.com
+servers:
+  - url: 'https://app.orderlab.dev:13005'
+    description: Development and Testing Server
+  - url: 'https://t-vm-olab-app-l02.redmath.org'
+    description: Test automation server
+  - url: 'https://a-vm-olab-app-l01.redmath.org'
+    description: Acceptance server
+
+tags:
+  - name: Smart Contract
+    description: Smart Contract Controller
+
+paths:
+  /api/v1/smart-contracts:
+    post:
+      tags:
+        - SmartContract
+      summary: Create smart contract
+      operationId: createSmartContracts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSmartContractRequest'
+      responses:
+        '200':
+          description: Response indicates successful creation of the record.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/MessageInfo'
+    put:
+      tags:
+        - SmartContract
+      summary: Update smart contract
+      operationId: updateSmartContracts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSmartContractRequest'
+      responses:
+        '200':
+          description: Response indicates successful update of the record.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/MessageInfo'
+    get:
+      tags:
+        - SmartContract
+      summary: Get smartContracts
+      operationId: getSmartContracts
+      responses:
+        '200':
+          description: Response contains the smart contracts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SmartContractResponse'
+    delete:
+      tags:
+        - SmartContract
+      summary: Delete smartContracts
+      operationId: deleteSmartContracts
+      responses:
+        '200':
+          description: Response contains the message info.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageInfo'
+
+components:
+  parameters:
+    PageOffset:
+      name: pageOffset
+      in: query
+      schema:
+        $ref: "#/components/schemas/PageOffset"
+
+    PageNumber:
+      name: pageNumber
+      in: query
+      schema:
+        $ref: "#/components/schemas/PageNumber"
+
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        $ref: "#/components/schemas/PageSize"
+
+    SortDirection:
+      name: sortDirection
+      required: false
+      in: query
+      schema:
+        $ref: "#/components/schemas/SortDirection"
+
+    SortBy:
+      name: sortBy
+      required: false
+      in: query
+      schema:
+        $ref: "#/components/schemas/SortBy"
+
+    SortByUpdatedOn:
+      name: sortBy
+      required: false
+      in: query
+      schema:
+        $ref: "#/components/schemas/SortByUpdatedOn"
+
+  schemas:
+    MessageInfo:
+      type: object
+      properties:
+        messageCode:
+          type: string
+        messageDescription:
+          type: string
+        displayableName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        displayableId:
+          type: string
+
+    PageOffset:
+      type: integer
+      minimum: 0
+      default: 0
+      example: 0
+
+    PageNumber:
+      type: integer
+      minimum: 0
+      default: 0
+      example: 0
+
+    PageSize:
+      type: integer
+      minimum: 0
+      default: 10
+      example: 0
+
+    SortDirection:
+      type: string
+      default: ASC
+      enum:
+        - ASC
+        - DESC
+
+    SortBy:
+      type: string
+      default: createdOn
+      enum:
+        - createdOn
+
+    SortByUpdatedOn:
+      type: string
+      default: updatedOn
+      enum:
+        - updatedOn
+
+    SmartContractResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        version:
+          type: string
+        creatorAddress:
+          type: string
+        createdOn:
+          type: string
+        updatedAt:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContractParticipantResponse"
+
+    ContractParticipantResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        address:
+          type: string
+        role:
+          type: string
+        joinedAt:
+          type: string
+
+    CreateSmartContractRequest:
+      type: object
+      required: # Required fields, similar to @NotNull
+        - creatorAddress
+        - description
+      properties:
+        creatorAddress:
+          type: string
+          minLength: 1                  # Ensures it’s not blank, similar to @NotBlank
+          description: "Creator Address required"
+        description:
+          type: string
+          minLength: 1                  # Ensures it’s not blank, similar to @NotBlank
+          description: "Brief description of the contract. Description required"
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContractParticipantRequest"
+        isActive:
+          type: boolean
+          description: "Whether the contract is active"
+          default: true
+
+    UpdateSmartContractRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+          minLength: 1                  # Ensures it’s not blank, similar to @NotBlank
+        creatorAddress:
+          type: string
+          minLength: 1                  # Ensures it’s not blank, similar to @NotBlank
+          description: "Creator Address required"
+        description:
+          type: string
+          minLength: 1                  # Ensures it’s not blank, similar to @NotBlank
+          description: "Brief description of the contract. Description required"
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContractParticipantRequest"
+        isActive:
+          type: boolean
+          description: "Whether the contract is active"
+
+    ContractParticipantRequest:
+      type: object
+      required:
+        - address
+        - role
+      properties:
+        id:
+          type: integer
+          format: int64
+        address:
+          type: string
+          minLength: 1
+        role:
+          type: string
+          minLength: 1
